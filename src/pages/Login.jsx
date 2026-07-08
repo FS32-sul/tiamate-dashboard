@@ -1,9 +1,32 @@
-import { Button, Form, Input } from "antd";
+import { App, Button, Form, Input } from "antd";
+import { AXIOS } from "../services";
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
 const Login = () => {
 
-    function logar(dados){
-        console.log(dados);
+    const [loading, setLoading] = useState(false);
+    const { notification } = App.useApp();
+    const navigate = useNavigate();
+
+    async function logar(dados){
+        setLoading(true);
+        try {
+            const res = await AXIOS.post("/login", dados);
+            setLoading(false);
+            if(!res.data.token){
+                notification.error({
+                    title: "Aviso:",
+                    description: res.data.mensagem,
+                    placement: "bottomRight"
+                });
+                return;
+            }
+            sessionStorage.setItem("token", res.data.token);
+            navigate("/admin");
+        } catch (error) {
+            return
+        }
         
     }
 
@@ -31,7 +54,8 @@ const Login = () => {
                 <Button
                     type="primary"
                     htmlType="submit"
-                    className="w-full" 
+                    className="w-full"
+                    loading={loading}
                 >Entrar</Button>
             </Form>
         </div>
