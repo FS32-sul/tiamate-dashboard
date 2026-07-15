@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+@theme{
+    --color-vinho: #64221D;
+}
