@@ -16,7 +16,7 @@ const Interessados = () => {
     async function buscar() {
         const res = await AXIOS.get("/interessados", {
             headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("token")}`
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             }
         });
 
